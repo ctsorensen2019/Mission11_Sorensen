@@ -17,20 +17,16 @@ namespace BookFun.API.Controllers
         }
 
         [HttpGet("AllBooks")]
-        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1, string sortOrder = "asc")
+        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1, string sortOrder = "asc", [FromQuery] List<string>? category = null)
         {
             string? favBookType = Request.Cookies["FavoriteBookType"];
-            Console.WriteLine("~~~~~~~~COOKIE~~~~~~~~~\n" + favBookType);
-
-            HttpContext.Response.Cookies.Append("FavoriteBookType", "Classic", new CookieOptions()
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.Now.AddMinutes(1),
-            });
 
             var query = _bookContext.Books.AsQueryable();
+
+            if (category != null && category.Any())
+            {
+                query = query.Where(b => category.Contains(b.Category));
+            }
 
             if (sortOrder.ToLower() == "desc")
             {
@@ -47,7 +43,7 @@ namespace BookFun.API.Controllers
                 .Take(pageSize)
                 .ToList();
 
-            var totalNumBooks = _bookContext.Books.Count();
+            var totalNumBooks = query.Count();
 
             var someObject = new
             {
@@ -79,5 +75,17 @@ namespace BookFun.API.Controllers
                 .ToList();
             return something;
         }
-}
+
+
+        [HttpGet("GetBookTypes")]
+        public IActionResult GetBookTypes()
+        {
+            var bookTypes = _bookContext.Books
+                .Select(b => b.Category)
+                .Distinct()
+                .ToList();
+
+            return Ok(bookTypes);
+        }
+    }
 }

@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
   const [sortOrder, setSortOrder] = useState<string>('asc');
   const [totalItems, setTotalItems] = useState<number>(0);
   const [totalPages, settotalPages] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBooks = async () => {
+      const categoryParams = selectedCategories
+        .map((cat) => `category=${encodeURIComponent(cat)}`)
+        .join('&');
+
+      const url = `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`;
+
+      console.log('SelectedCategories:', selectedCategories);
+      console.log('Final URL:', url);
+
       const response = await fetch(
-        `https://localhost:5000/Book/AllBooks?pageHowMany=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}`,
+        `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`,
         {
           credentials: 'include',
         }
@@ -25,14 +36,18 @@ function BookList() {
     };
 
     fetchBooks();
-  }, [pageSize, pageNum, sortOrder, totalItems]);
+  }, [pageSize, pageNum, sortOrder, totalItems, selectedCategories]);
 
   return (
     <>
       <h1>Favorite Books</h1>
       <br />
       {books.map((b) => (
-        <div id="bookCard" className="card" key={b.bookId}>
+        <div
+          id="bookCard"
+          className="card shadow-sm rounded-4 border-start"
+          key={b.bookId}
+        >
           <h3 className="card-title">{b.title}</h3>
           <div className="card-body">
             <ul className="list-unstyled">
@@ -58,6 +73,15 @@ function BookList() {
                 <strong>Price:</strong> {b.price}
               </li>
             </ul>
+
+            <button
+              className="btn btn-success"
+              onClick={() =>
+                navigate(`/purchase/${b.title}/${b.price}/${b.bookId}`)
+              }
+            >
+              Purchase
+            </button>
           </div>
         </div>
       ))}
