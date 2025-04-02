@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import { useNavigate } from 'react-router-dom';
-import { fetchBooks } from '../api/BookFun';
+import { fetchBooks } from '../api/BooksAPI';
 import Pagination from './Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
