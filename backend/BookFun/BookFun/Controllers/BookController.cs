@@ -98,7 +98,7 @@ namespace BookFun.API.Controllers
         }
 
         [HttpPut("UpdateBook/{bookId}")]
-        public IActionResult UpdateProject(int bookId, [FromBody] Book updatedBook)
+        public IActionResult UpdateBook(int bookId, [FromBody] Book updatedBook)
         {
             var existingBook = _bookContext.Books.Find(bookId);
 

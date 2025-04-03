@@ -1,30 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { fetchBooks } from '../api/BooksAPI';
 import Pagination from './Pagination';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [sortOrder, setSortOrder] = useState<string>('asc');
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
         setLoading(true);
-        const data = await fetchBooks(
-          pageSize,
-          pageNum,
-          sortOrder,
-          selectedCategories
-        );
+        const data = await fetchBooks(pageSize, pageNum, selectedCategories);
         setBooks(data.books);
         setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
       } catch (error) {
@@ -35,25 +29,29 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     };
 
     loadBooks();
-  }, [pageSize, pageNum, sortOrder, selectedCategories]);
+  }, [pageSize, pageNum, selectedCategories]);
 
-  if (loading) return <p>Loading books...</p>;
-  if (error) return <p className="text-danger">Error: {error}</p>;
+  if (loading) return <p>Loading projects...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
     <>
       <h1>Favorite Books</h1>
       <br />
       {books.map((b) => (
-        <div id="bookCard" className="card" key={b.bookId}>
-          <h3 className="card-title">{b.title}</h3>
+        <div
+          id="bookCard"
+          className="card shadow-sm rounded-4 border-start border-3 border-primary mb-3"
+          key={b.bookId}
+        >
+          <h3 className="card-title p-3">{b.title}</h3>
           <div className="card-body">
             <ul className="list-unstyled">
               <li>
                 <strong>Author:</strong> {b.author}
               </li>
               <li>
-                <strong>Publisher:</strong> {b.publisher}
+                <strong>Book Publisher:</strong> {b.publisher}
               </li>
               <li>
                 <strong>ISBN:</strong> {b.isbn}
@@ -65,12 +63,13 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                 <strong>Category:</strong> {b.category}
               </li>
               <li>
-                <strong>Pages:</strong> {b.pageCount}
+                <strong>Number of Pages:</strong> {b.pageCount}
               </li>
               <li>
-                <strong>Price:</strong> ${b.price}
+                <strong>Price:</strong> {b.price}
               </li>
             </ul>
+
             <button
               className="btn btn-success"
               onClick={() =>
@@ -93,20 +92,6 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
           setPageNum(1);
         }}
       />
-
-      <label className="mt-3">
-        Sort by Book Name:&nbsp;
-        <select
-          onChange={(e) => {
-            setSortOrder(e.target.value);
-            setPageNum(1);
-          }}
-          value={sortOrder}
-        >
-          <option value="asc">A → Z</option>
-          <option value="desc">Z → A</option>
-        </select>
-      </label>
     </>
   );
 }

@@ -10,12 +10,14 @@ interface NewBookFormProps {
 const NewBookForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
   const [formData, setFormData] = useState<Book>({
     bookId: 0,
-    bookName: '',
-    bookType: '',
-    bookRegionalProgram: '',
-    bookImpact: 0,
-    bookPhase: '',
-    bookFunctionalityStatus: '',
+    title: '',
+    author: '',
+    publisher: '',
+    isbn: '',
+    classification: '',
+    category: '',
+    pageCount: 0,
+    price: 0.0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,56 +34,74 @@ const NewBookForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     <form onSubmit={handleSubmit}>
       <h2>Add New Book</h2>
       <label>
-        Book Name:
+        Book Title:
         <input
           type="text"
-          name="bookName"
-          value={formData.bookName}
+          name="title"
+          value={formData.title}
           onChange={handleChange}
         />
       </label>
       <label>
-        Book Type:
+        Book Author:
         <input
           type="text"
-          name="bookType"
-          value={formData.bookType}
+          name="author"
+          value={formData.author}
           onChange={handleChange}
         />
       </label>
       <label>
-        Regional Program:
+        Book Publisher:
         <input
           type="text"
-          name="bookRegionalProgram"
-          value={formData.bookRegionalProgram}
+          name="publisher"
+          value={formData.publisher}
           onChange={handleChange}
         />
       </label>
       <label>
-        Impact:
+        Book ISBN:
+        <input
+          type="string"
+          name="isbn"
+          value={formData.isbn}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Classification:
+        <input
+          type="text"
+          name="classification"
+          value={formData.classification}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Book Category:
+        <input
+          type="text"
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Page Count:
         <input
           type="number"
-          name="bookImpact"
-          value={formData.bookImpact}
+          name="pageCount"
+          value={formData.pageCount}
           onChange={handleChange}
         />
       </label>
       <label>
-        Book Phase:
+        Book Price:
         <input
-          type="text"
-          name="bookPhase"
-          value={formData.bookPhase}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Book Functionality Status:
-        <input
-          type="text"
-          name="bookFunctionalityStatus"
-          value={formData.bookFunctionalityStatus}
+          type="float"
+          name="price"
+          value={formData.price}
           onChange={handleChange}
         />
       </label>
