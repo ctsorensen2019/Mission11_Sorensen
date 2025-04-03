@@ -11,7 +11,7 @@ const API_URL = `mission13-sorensen-backend-b6fchrh0gmcqhxak.eastus-01.azurewebs
 export const fetchBooks = async (
   pageSize: number,
   pageNum: number,
-  sortOrder: asc,
+  sortOrder: string,
   selectedCategories: string[]
 ): Promise<FetchBooksResponse> => {
   try {

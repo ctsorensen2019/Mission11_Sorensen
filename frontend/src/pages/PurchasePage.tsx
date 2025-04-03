@@ -6,7 +6,7 @@ import { CartItem } from '../types/CartItem';
 
 function PurchasePage() {
   const navigate = useNavigate();
-  const { bookName, bookId } = useParams();
+  const { title, bookId, price } = useParams(); // ✅ get all from route
   const { addToCart } = useCart();
   const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
 
@@ -14,6 +14,7 @@ function PurchasePage() {
     const newItem: CartItem = {
       bookId: Number(bookId),
       title: title || 'No Book Found',
+      price: Number(price) || 0, // ✅ parse as number
       purchaseAmount,
     };
     addToCart(newItem);
@@ -23,8 +24,7 @@ function PurchasePage() {
   return (
     <>
       <WelcomeBand />
-      <h2>Donate to {bookName}</h2>
-
+      <h2>Donate to {title || 'Unknown Book'}</h2> {/* ✅ fix variable name */}
       <div>
         <input
           type="number"
@@ -34,7 +34,6 @@ function PurchasePage() {
         />
         <button onClick={handleAddToCart}>Add to Cart</button>
       </div>
-
       <button onClick={() => navigate(-1)}>Go Back</button>
     </>
   );
