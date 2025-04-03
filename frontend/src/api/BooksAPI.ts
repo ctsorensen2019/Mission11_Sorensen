@@ -5,8 +5,7 @@ interface FetchBooksResponse {
   totalNumBooks: number;
 }
 
-const API_URL = `mission13-sorensen-backend-b6fchrh0gmcqhxak.eastus-01.azurewebsites.net/Book`;
-//'https://waterproject-hilton-backend.azurewebsites.net/Water';
+const API_URL = `https://mission13-sorensen-backend-b6fchrh0gmcqhxak.eastus-01.azurewebsites.net/Book`;
 
 export const fetchBooks = async (
   pageSize: number,
@@ -18,7 +17,6 @@ export const fetchBooks = async (
     const categoryParams = selectedCategories
       .map((cat) => `category=${encodeURIComponent(cat)}`)
       .join('&');
-    //const url = `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`;
     const response = await fetch(
       `${API_URL}/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`
     );
