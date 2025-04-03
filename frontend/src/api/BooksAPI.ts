@@ -5,7 +5,7 @@ interface FetchBooksResponse {
   totalNumBooks: number;
 }
 
-const API_URL = `https://localhost:5000/Book`;
+const API_URL = `mission13-sorensen-backend-b6fchrh0gmcqhxak.eastus-01.azurewebsites.net/Book`;
 //'https://waterproject-hilton-backend.azurewebsites.net/Water';
 
 export const fetchBooks = async (
@@ -20,8 +20,7 @@ export const fetchBooks = async (
       .join('&');
     //const url = `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`;
     const response = await fetch(
-      `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`
-      //`${API_URL}/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
+      `${API_URL}/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`
     );
 
     if (!response.ok) {

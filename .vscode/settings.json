@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "undefined/subscriptions/fe9b4b3c-80dd-414d-9ce7-ff6a877558b8/resourceGroups/appsvc_windows_eastus/providers/Microsoft.Web/sites/Mission13-Sorensen-Backend",
+  "appService.deploySubpath": "backend\\BookFun\\BookFun\\publish"
+}
