@@ -23,7 +23,7 @@ const EditBookForm = ({ book, onSuccess, onCancel }: EditBookFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add New Book</h2>
+      <h2>Edit Book</h2>
       <label>
         Book Title:
         <input
@@ -96,7 +96,7 @@ const EditBookForm = ({ book, onSuccess, onCancel }: EditBookFormProps) => {
           onChange={handleChange}
         />
       </label>
-      <button type="submit">Add Book</button>
+      <button type="submit">Finalize Changes</button>
       <button type="button" onClick={onCancel}>
         Cancel
       </button>

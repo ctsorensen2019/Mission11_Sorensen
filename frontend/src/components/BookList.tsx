@@ -13,12 +13,18 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState<string>('asc');
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
         setLoading(true);
-        const data = await fetchBooks(pageSize, pageNum, selectedCategories);
+        const data = await fetchBooks(
+          pageSize,
+          pageNum,
+          sortOrder,
+          selectedCategories
+        );
         setBooks(data.books);
         setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
       } catch (error) {
@@ -29,7 +35,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     };
 
     loadBooks();
-  }, [pageSize, pageNum, selectedCategories]);
+  }, [pageSize, pageNum, sortOrder, selectedCategories]);
 
   if (loading) return <p>Loading projects...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -90,6 +96,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
         onPageSizeChange={(newSize) => {
           setPageSize(newSize);
           setPageNum(1);
+          setSortOrder('asc');
         }}
       />
     </>

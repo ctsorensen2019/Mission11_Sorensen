@@ -5,20 +5,22 @@ interface FetchBooksResponse {
   totalNumBooks: number;
 }
 
-const API_URL = 'https://waterproject-hilton-backend.azurewebsites.net/Water';
+const API_URL = `https://localhost:5000/Book`;
+//'https://waterproject-hilton-backend.azurewebsites.net/Water';
 
 export const fetchBooks = async (
   pageSize: number,
   pageNum: number,
+  sortOrder: asc,
   selectedCategories: string[]
 ): Promise<FetchBooksResponse> => {
   try {
     const categoryParams = selectedCategories
-      .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
+      .map((cat) => `category=${encodeURIComponent(cat)}`)
       .join('&');
     //const url = `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`;
     const response = await fetch(
-      `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
+      `https://localhost:5000/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`
       //`${API_URL}/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
     );
 
